@@ -1,8 +1,10 @@
 import React from 'react';
 
 import BlogSummaryCard from '@/components/BlogSummaryCard';
-
+import { getBlogPostList } from "../helpers/file-helpers";
 import styles from './homepage.module.css';
+
+const blogPostList = await getBlogPostList();
 
 function Home() {
   return (
@@ -10,14 +12,15 @@ function Home() {
       <h1 className={styles.mainHeading}>
         Latest Content:
       </h1>
-
-      {/* TODO: Iterate over the data read from the file system! */}
-      <BlogSummaryCard
-        slug="example"
-        title="Hello world!"
-        abstract="This is a placeholder, an example which shows how the “BlogSummaryCard” component should be used. You'll want to swap this out based on the data from the various MDX files!"
-        publishedOn={new Date()}
-      />
+      {blogPostList.map(blogPost => (
+        <BlogSummaryCard
+          key={blogPost.slug}
+          slug={blogPost.slug}
+          title={blogPost.title}
+          abstract={blogPost.abstract}
+          publishedOn={blogPost.publishedOn}
+        />
+      ))}
     </div>
   );
 }
