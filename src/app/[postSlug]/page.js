@@ -5,6 +5,7 @@ import { loadBlogPost } from "@/helpers/file-helpers";
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import styles from './postSlug.module.css';
+import CodeSnippet from '../../components/CodeSnippet';
 
 
 export async function generateMetadata({ params }) {
@@ -32,6 +33,9 @@ async function BlogPost({ params }) {
         <MDXRemote
           source={mdxBlogPost.content}
           frontmatter={mdxBlogPost.frontmatter}
+          components={{
+              pre: CodeSnippet,
+          }}
         />
       </div>
     </article>
