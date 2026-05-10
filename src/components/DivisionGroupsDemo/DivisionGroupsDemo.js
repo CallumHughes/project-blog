@@ -57,8 +57,8 @@ function DivisionGroupsDemo({
         />
       </header>
 
+      <LayoutGroup>
       <div className={styles.demoWrapper}>
-        <LayoutGroup>
         <div
           className={clsx(styles.demoArea)}
           style={gridStructure}
@@ -78,7 +78,6 @@ function DivisionGroupsDemo({
             </div>
           ))}
         </div>
-        </LayoutGroup>
       </div>
 
       {includeRemainderArea && (
@@ -88,12 +87,14 @@ function DivisionGroupsDemo({
           </p>
 
           {range(remainder).map((index) => {
+            const itemId = `${(numOfItemsPerGroup * numOfGroups) + (remainder - index + 1)}-${componentIdString}`
             return (
-              <div key={index} className={styles.item} />
+              <motion.div layoutId={itemId} key={itemId} className={styles.item} />
             );
           })}
         </div>
       )}
+    </LayoutGroup>
 
       <Equation
         dividend={numOfItems}
