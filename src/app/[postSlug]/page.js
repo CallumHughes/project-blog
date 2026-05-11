@@ -30,6 +30,11 @@ async function BlogPost({ params }) {
         { loading: Spinner }
     );
 
+    const CircularColorsDemo = dynamic(
+      () => import('@/components/CircularColorsDemo'),
+      { loading: Spinner }
+    )
+
   return (
     <article className={styles.wrapper}>
       <BlogHero
@@ -42,7 +47,8 @@ async function BlogPost({ params }) {
           frontmatter={mdxBlogPost.frontmatter}
           components={{
               pre: CodeSnippet,
-              DivisionGroupsDemo
+              DivisionGroupsDemo,
+              CircularColorsDemo
           }}
         />
       </div>

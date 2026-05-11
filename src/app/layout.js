@@ -9,6 +9,7 @@ import { LIGHT_TOKENS, DARK_TOKENS } from '@/constants';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import RespectMotionPreferences from '@/components/RespectMotionPreferences';
 import './styles.css';
 
 const mainFont = Work_Sans({
@@ -29,6 +30,7 @@ function RootLayout({ children }) {
   const theme = 'light';
 
   return (
+    <RespectMotionPreferences>
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
@@ -41,6 +43,7 @@ function RootLayout({ children }) {
         <Footer />
       </body>
     </html>
+    </RespectMotionPreferences>
   );
 }
 

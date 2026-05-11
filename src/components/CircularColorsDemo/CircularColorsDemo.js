@@ -1,10 +1,12 @@
-import React from 'react';
+"use client"
+import React, {useEffect, useId, useRef, useState} from 'react';
 import clsx from 'clsx';
 import {
   Play,
   Pause,
   RotateCcw,
 } from 'react-feather';
+import { motion } from 'motion/react'
 
 import Card from '@/components/Card';
 import VisuallyHidden from '@/components/VisuallyHidden';
@@ -18,12 +20,36 @@ const COLORS = [
 ];
 
 function CircularColorsDemo() {
-  // TODO: This value should increase by 1 every second:
-  const timeElapsed = 0;
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const timeoutRef = useRef(null);
+  const selectContainerId = useId()
 
-  // TODO: This value should cycle through the colors in the
+ const  handlePlayClick = () => {
+   setIsPlaying(!isPlaying);
+ }
+
+ const handleResetClick = () => {
+   setIsPlaying(false);
+   setTimeElapsed(0)
+ }
+
+  useEffect(() => {
+    if (isPlaying) {
+      timeoutRef.current = setTimeout(() => {
+        setTimeElapsed(timeElapsed + 1) // increase by 1 every second
+      }, 1000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isPlaying, timeoutRef, timeElapsed]);
+
   // COLORS array:
-  const selectedColor = COLORS[0];
+  const selectedColor = COLORS[timeElapsed % COLORS.length];
 
   return (
     <Card as="section" className={styles.wrapper}>
@@ -37,13 +63,6 @@ function CircularColorsDemo() {
               className={styles.color}
               key={index}
             >
-              {isSelected && (
-                <div
-                  className={
-                    styles.selectedColorOutline
-                  }
-                />
-              )}
               <div
                 className={clsx(
                   styles.colorBox,
@@ -58,6 +77,16 @@ function CircularColorsDemo() {
                   {color.label}
                 </VisuallyHidden>
               </div>
+
+              {isSelected && (
+                <motion.div
+                  layoutId={selectContainerId}
+                  key={selectContainerId}
+                  className={
+                    styles.selectedColorOutline
+                  }
+                />
+              )}
             </li>
           );
         })}
@@ -69,11 +98,12 @@ function CircularColorsDemo() {
           <dd>{timeElapsed}</dd>
         </dl>
         <div className={styles.actions}>
-          <button>
-            <Play />
-            <VisuallyHidden>Play</VisuallyHidden>
+          <button onClick={handlePlayClick}>
+            {!isPlaying ? (<><Play />
+              <VisuallyHidden>Play</VisuallyHidden></>)
+              : (<><Pause /><VisuallyHidden>Pause</VisuallyHidden></>)}
           </button>
-          <button>
+          <button onClick={handleResetClick}>
             <RotateCcw />
             <VisuallyHidden>Reset</VisuallyHidden>
           </button>
