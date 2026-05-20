@@ -3,37 +3,38 @@ import dynamic from 'next/dynamic';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import BlogHero from '@/components/BlogHero';
-import { loadBlogPost } from "@/helpers/file-helpers";
+import { loadBlogPost } from '@/helpers/file-helpers';
 
 import styles from './postSlug.module.css';
 import CodeSnippet from '@/components/CodeSnippet';
 import Spinner from '@/components/Spinner';
 
-
 export async function generateMetadata({ params }) {
-    const { postSlug } = await params;
-    const mdxBlogPost = await loadBlogPost(postSlug)
+  const { postSlug } = await params;
+  const mdxBlogPost = await loadBlogPost(postSlug);
 
-    return {
-        title: mdxBlogPost.frontmatter.title,
-        description: mdxBlogPost.frontmatter.description,
-    };
+  return {
+    title: mdxBlogPost.frontmatter.title,
+    description: mdxBlogPost.frontmatter.description,
+  };
 }
 
-
 async function BlogPost({ params }) {
-    const { postSlug } = await params;
-    const mdxBlogPost = await loadBlogPost(postSlug)
+  const { postSlug } = await params;
+  const mdxBlogPost = await loadBlogPost(postSlug);
 
-    const DivisionGroupsDemo = dynamic(
-        () => import('@/components/DivisionGroupsDemo'),
-        { loading: Spinner }
-    );
+  if (!mdxBlogPost) {
+  }
 
-    const CircularColorsDemo = dynamic(
-      () => import('@/components/CircularColorsDemo'),
-      { loading: Spinner }
-    )
+  const DivisionGroupsDemo = dynamic(
+    () => import('@/components/DivisionGroupsDemo'),
+    { loading: Spinner },
+  );
+
+  const CircularColorsDemo = dynamic(
+    () => import('@/components/CircularColorsDemo'),
+    { loading: Spinner },
+  );
 
   return (
     <article className={styles.wrapper}>
@@ -46,9 +47,9 @@ async function BlogPost({ params }) {
           source={mdxBlogPost.content}
           frontmatter={mdxBlogPost.frontmatter}
           components={{
-              pre: CodeSnippet,
-              DivisionGroupsDemo,
-              CircularColorsDemo
+            pre: CodeSnippet,
+            DivisionGroupsDemo,
+            CircularColorsDemo,
           }}
         />
       </div>
