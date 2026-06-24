@@ -1,5 +1,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import BlogHero from '@/components/BlogHero';
@@ -24,6 +25,7 @@ async function BlogPost({ params }) {
   const mdxBlogPost = await loadBlogPost(postSlug);
 
   if (!mdxBlogPost) {
+    notFound();
   }
 
   const DivisionGroupsDemo = dynamic(

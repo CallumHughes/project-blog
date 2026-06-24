@@ -4,9 +4,6 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default {
-  experimental: {
-    globalNotFound: true,
-  },
   outputFileTracingIncludes: {
     '/*': ['./content/**/*'],
   },
